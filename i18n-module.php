@@ -79,15 +79,15 @@ class yoast_i18n {
 	private $percent_translated;
 
 	/**
-	 * Will contain the percentage translated for the plugin translation project in the locale
+	 * Indicates whether there's a translation available at all.
 	 *
 	 * @access private
 	 * @var bool
 	 */
-	private $translation_available;
+	private $translation_exists;
 
 	/**
-	 * Will contain the percentage translated for the plugin translation project in the locale
+	 * Indicates whether the translation's loaded.
 	 *
 	 * @access private
 	 * @var bool
@@ -163,9 +163,9 @@ class yoast_i18n {
 
 		if ( $this->translation_loaded && $this->percent_translated < 90 ) {
 			$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!', 'yoast-18n' ), $this->locale_name, $this->percent_translated . '%', $glotpress_link );
-		} else if ( ! $this->translation_loaded && $this->translation_available ) {
+		} else if ( ! $this->translation_loaded && $this->translation_exists ) {
 			$message = sprintf( __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$s, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', 'yoast-18n' ), $this->locale_name, $this->plugin_name, $this->percent_translated . '%', $glotpress_link );
-		} else if ( ! $this->translation_loaded && ! $this->translation_available ) {
+		} else if ( ! $this->translation_loaded && ! $this->translation_exists ) {
 			$message = sprintf( __( 'You\'re using WordPress in %s. We\'d love for %s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %s to help translate this plugin to %1$s!', 'yoast-18n' ), $this->locale_name, $this->plugin_name, $glotpress_link );
 		}
 
@@ -219,7 +219,7 @@ class yoast_i18n {
 	private function translation_details() {
 		$set = $this->find_or_initialize_translation_details();
 
-		$this->translation_available = ! is_null( $set );
+		$this->translation_exists = ! is_null( $set );
 		$this->translation_loaded    = is_textdomain_loaded( $this->textdomain );
 
 		$this->parse_translation_set( $set );
