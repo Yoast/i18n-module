@@ -139,7 +139,7 @@ class yoast_i18n {
 	private function hide_promo() {
 		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
 		if ( ! $hide_promo ) {
-			if ( isset( $_GET['remove_i18n_promo'] ) ) {
+			if ( filter_input( INPUT_GET, 'remove_i18n_promo', FILTER_NULL_ON_FAILURE ) ) {
 				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
 				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
 				$hide_promo = true;
