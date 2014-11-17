@@ -2,59 +2,57 @@
 
 /**
  * This class defines a promo box and checks your translation site's API for stats about it, then shows them to the user.
- *
- * @abstract
  */
-abstract class yoast_i18n {
+class yoast_i18n {
 
 	/**
 	 * Hook where you want to show the promo box
 	 *
 	 * @var string
 	 */
-	public $hook;
+	private $hook;
 
 	/**
 	 * Name of your plugin
 	 *
 	 * @var string
 	 */
-	public $plugin_name;
+	private $plugin_name;
 
 	/**
 	 * Project slug for the project on your translation site
 	 *
 	 * @var string
 	 */
-	public $project_slug;
+	private $project_slug;
 
 	/**
 	 * Your plugins textdomain
 	 *
 	 * @var string
 	 */
-	public $textdomain;
+	private $textdomain;
 
 	/**
 	 * Your translation site's logo
 	 *
 	 * @var string
 	 */
-	public $translate_project_logo;
+	private $translate_project_logo;
 
 	/**
 	 * Your translation site's name
 	 *
 	 * @var string
 	 */
-	public $translate_project_name;
+	private $translate_project_name;
 
 	/**
 	 * Your translation site's URL
 	 *
 	 * @var string
 	 */
-	public $translate_project_url;
+	private $translate_project_url;
 
 	/**
 	 * Will contain the site's locale
@@ -98,8 +96,10 @@ abstract class yoast_i18n {
 	
 	/**
 	 * Class constructor
+	 *
+	 * @param array $args Contains the settings for the class.
 	 */
-	public function __construct() {
+	public function __construct( $args ) {
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -109,50 +109,77 @@ abstract class yoast_i18n {
 			return;
 		}
 
-		$this->init();
+		$this->init( $args );
 
-		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
-		if ( ! $hide_promo ) {
-			if ( isset( $_GET['remove_i18n_promo'] ) ) {
-				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc. 
-				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
-				return;
-			}
+		if ( ! $this->hide_promo() ) {
 			add_action( $this->hook, array( $this, 'promo' ) );
 		}
 	}
 	
 	/**
 	 * This is where you decide where to display the messages and where you set the plugin specific variables.
+	 *
+	 * @access private
+	 *
+	 * @param array $args
 	 */
-	abstract public function init();
-	/** 
-	 *	Example of what this could do:
-	 *	$this->textdomain 	= 'wordpress-seo';				// The textdomain for the plugin you're extending this class in
-	 *	$this->project_slug	= 'wordpress-seo';				// Project slug for the project on the translate domain
-	 *	$this->plugin_name	= 'WordPress SEO by Yoast';		// Name of the plugin
-	 *	$this->hook 		= 'wpseo_admin_footer';			// Hook where you want to show the promo box
-	 */
-	
-	/**
-	 * Outputs a promo box
-	 */
-	public function promo() {
-		$this->translation_details();
+	private function init( $args ) {
+		foreach ( $args as $key => $arg ) {
+			$this->$key = $arg;
+		}
+	}
 
+	/**
+	 * Check whether the promo should be hidden or not
+	 *
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function hide_promo() {
+		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
+		if ( ! $hide_promo ) {
+			if ( isset( $_GET['remove_i18n_promo'] ) ) {
+				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
+				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
+				$hide_promo = true;
+			}
+		}
+		return $hide_promo;
+	}
+
+	/**
+	 * Generates a promo message
+	 *
+	 * @access private
+	 *
+	 * @return bool|string $message
+	 */
+	private function promo_message() {
 		$message = false;
-		
+
 		$translate_project_link = '<a href="' . $this->translate_project_url . '">' . $this->translate_project_name . '</a>';
-		
+
 		if ( $this->translation_loaded && $this->percent_translated < 90 ) {
-		 	$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!' ), $this->locale_name	, $this->percent_translated . '%', $translate_project_link );
-		} 
+			$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!' ), $this->locale_name	, $this->percent_translated . '%', $translate_project_link );
+		}
 		else if ( ! $this->translation_loaded && $this->translation_available ) {
 			$message = sprintf( __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$s, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!' ), $this->locale_name, $this->plugin_name, $this->percent_translated . '%', $translate_project_link );
 		}
 		else if ( ! $this->translation_loaded && ! $this->translation_available ) {
 			$message = sprintf( __( 'You\'re using WordPress in %s. We\'d love for %s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %s to help translate this plugin to %1$s!' ), $this->locale_name, $this->plugin_name, $translate_project_link );
 		}
+
+		return $message;
+	}
+
+	/**
+	 * Outputs a promo box
+	 */
+	public function promo() {
+		$this->translation_details();
+
+		$message = $this->promo_message();
 
 		if ( $message ) {
 			echo '<div id="i18n_promo_box" style="border: 1px solid #ccc; background-color: #fff; padding: 10px; max-width: 650px;">';
@@ -166,19 +193,32 @@ abstract class yoast_i18n {
 			echo '</div>';
 		}
 	}
-	
+
+	/**
+	 * Try to find the transient for the translation set or retrieve them.
+	 *
+	 * @access private
+	 *
+	 * @return object|null
+	 */
+	private function find_or_initialize_translation_details() {
+		$set = get_transient( 'yoast_i18n_' . $this->project_slug );
+
+		if ( ! $set ) {
+			$set = $this->retrieve_translation_details();
+			set_transient( 'yoast_i18n_' . $this->project_slug, $set, DAY_IN_SECONDS );
+		}
+
+		return $set;
+	}
+
 	/**
 	 * Try to get translation details from cache, otherwise retrieve them, then parse them.
 	 *
 	 * @access private
 	 */
 	private function translation_details() {
-		$set = get_transient( 'yoast_i18n_' . $this->project_slug );
-		
-		if ( ! $set ) {
-			$set = $this->retrieve_translation_details();
-			set_transient( 'yoast_i18n_' . $this->project_slug, $set, DAY_IN_SECONDS );
-		}
+		$set = $this->find_or_initialize_translation_details();
 
 		if ( is_null( $set ) ) {
 			$this->translation_available = false;
@@ -210,18 +250,19 @@ abstract class yoast_i18n {
 					return $set;
 				}
 			}
-			
-			return null;
 		}
+		return null;
 	}
 	
 	/** 
 	 * Set the needed private variables based on the results from Yoast Translate
 	 *
+	 * @param object $set The translation set
+	 *
 	 * @access private
 	 */
 	private function parse_translation_set( $set ) {
-		$this->locale_name 		= $set->name;
+		$this->locale_name 		    = $set->name;
 		$this->percent_translated 	= $set->percent_translated;
 	}
 }
