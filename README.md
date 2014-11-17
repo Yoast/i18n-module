@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/Yoast/i18n-module/badges/gpa.svg)](https://codeclimate.com/github/Yoast/i18n-module)
+
 # Yoast i18n module
 Promote your own translation site for people who are using your plugin in another language than `en_US`. 
 

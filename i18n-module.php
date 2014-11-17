@@ -61,7 +61,7 @@ class yoast_i18n {
 	 * @var string
 	 */
 	private $locale;
-	
+
 	/**
 	 * Will contain the locale's name, obtained from yoru translation site
 	 *
@@ -69,7 +69,7 @@ class yoast_i18n {
 	 * @var string
 	 */
 	private $locale_name;
-	
+
 	/**
 	 * Will contain the percentage translated for the plugin translation project in the locale
 	 *
@@ -93,7 +93,7 @@ class yoast_i18n {
 	 * @var bool
 	 */
 	private $translation_loaded;
-	
+
 	/**
 	 * Class constructor
 	 *
@@ -103,7 +103,7 @@ class yoast_i18n {
 		if ( ! is_admin() ) {
 			return;
 		}
-		
+
 		$this->locale = get_locale();
 		if ( 'en_US' === $this->locale ) {
 			return;
@@ -115,7 +115,7 @@ class yoast_i18n {
 			add_action( $this->hook, array( $this, 'promo' ) );
 		}
 	}
-	
+
 	/**
 	 * This is where you decide where to display the messages and where you set the plugin specific variables.
 	 *
@@ -145,6 +145,7 @@ class yoast_i18n {
 				$hide_promo = true;
 			}
 		}
+
 		return $hide_promo;
 	}
 
@@ -161,12 +162,10 @@ class yoast_i18n {
 		$translate_project_link = '<a href="' . $this->translate_project_url . '">' . $this->translate_project_name . '</a>';
 
 		if ( $this->translation_loaded && $this->percent_translated < 90 ) {
-			$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!' ), $this->locale_name	, $this->percent_translated . '%', $translate_project_link );
-		}
-		else if ( ! $this->translation_loaded && $this->translation_available ) {
+			$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!' ), $this->locale_name, $this->percent_translated . '%', $translate_project_link );
+		} else if ( ! $this->translation_loaded && $this->translation_available ) {
 			$message = sprintf( __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$s, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!' ), $this->locale_name, $this->plugin_name, $this->percent_translated . '%', $translate_project_link );
-		}
-		else if ( ! $this->translation_loaded && ! $this->translation_available ) {
+		} else if ( ! $this->translation_loaded && ! $this->translation_available ) {
 			$message = sprintf( __( 'You\'re using WordPress in %s. We\'d love for %s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %s to help translate this plugin to %1$s!' ), $this->locale_name, $this->plugin_name, $translate_project_link );
 		}
 
@@ -186,7 +185,7 @@ class yoast_i18n {
 			echo '<a href="' . add_query_arg( array( 'remove_i18n_promo' => '1' ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 			echo '<h2>' . sprintf( __( 'Translation of %s' ), $this->plugin_name ) . '</h2>';
 			if ( isset( $this->translate_project_logo ) && '' != $this->translate_project_logo ) {
-				echo '<a href="' . $this->translate_project_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->translate_project_logo . '" alt="'. $this->translate_project_name .'"/></a>';
+				echo '<a href="' . $this->translate_project_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->translate_project_logo . '" alt="' . $this->translate_project_name . '"/></a>';
 			}
 			echo '<p>' . $message . '</p>';
 			echo '<p><a href="' . $this->translate_project_url . '">' . __( 'Register now &raquo;' ) . '</a></p>';
@@ -220,17 +219,12 @@ class yoast_i18n {
 	private function translation_details() {
 		$set = $this->find_or_initialize_translation_details();
 
-		if ( is_null( $set ) ) {
-			$this->translation_available = false;
-		} else {
-			$this->translation_available = true;
-		}
-		
-		$this->translation_loaded = is_textdomain_loaded( $this->textdomain );
-		
+		$this->translation_available = ! is_null( $set );
+		$this->translation_loaded    = is_textdomain_loaded( $this->textdomain );
+
 		$this->parse_translation_set( $set );
 	}
-	
+
 	/**
 	 * Retrieve the translation details from Yoast Translate
 	 *
@@ -238,23 +232,24 @@ class yoast_i18n {
 	 */
 	private function retrieve_translation_details() {
 		$project_api_url = $this->translate_project_url . 'api/projects/' . $this->project_slug;
-		
+
 		$resp = wp_remote_get( $project_api_url );
 		$body = wp_remote_retrieve_body( $resp );
-		
+
 		if ( $body ) {
 			unset( $resp );
 			$body = json_decode( $body );
-			foreach( $body->translation_sets as $set ) {
+			foreach ( $body->translation_sets as $set ) {
 				if ( $this->locale == $set->wp_locale ) {
 					return $set;
 				}
 			}
 		}
+
 		return null;
 	}
-	
-	/** 
+
+	/**
 	 * Set the needed private variables based on the results from Yoast Translate
 	 *
 	 * @param object $set The translation set
@@ -262,7 +257,7 @@ class yoast_i18n {
 	 * @access private
 	 */
 	private function parse_translation_set( $set ) {
-		$this->locale_name 		    = $set->name;
-		$this->percent_translated 	= $set->percent_translated;
+		$this->locale_name        = $set->name;
+		$this->percent_translated = $set->percent_translated;
 	}
 }
