@@ -174,7 +174,7 @@ class yoast_i18n {
 			$message = __( 'You\'re using WordPress in %1$s. We\'d love for %2$s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate this plugin to %1$s!', 'yoast-18n' );
 		}
 
-		$registration_link = sprintf( '<a href="%s">%s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
+		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
 		$message           = sprintf( $message, esc_html( $this->locale_name ), esc_html( $this->plugin_name ), $this->percent_translated, $registration_link );
 
 		return $message;
@@ -189,7 +189,7 @@ class yoast_i18n {
 		$message = $this->promo_message();
 
 		if ( $message ) {
-			echo '<div id="i18n_promo_box" style="border: 1px solid #ccc; background-color: #fff; padding: 10px; max-width: 650px;">';
+			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px;">';
 			echo '<a href="' . add_query_arg( array( 'remove_i18n_promo' => '1' ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 			echo '<h2>' . sprintf( __( 'Translation of %s', 'yoast-18n' ), $this->plugin_name ) . '</h2>';
 			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
@@ -237,16 +237,17 @@ class yoast_i18n {
 	 * Retrieve the translation details from Yoast Translate
 	 *
 	 * @access private
+	 *
+	 * @return object|null
 	 */
 	private function retrieve_translation_details() {
-		$project_api_url = $this->glotpress_url . 'api/projects/' . $this->project_slug;
+		$api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
 
-
-		$resp = wp_remote_get( $project_api_url );
+		$resp = wp_remote_get( $api_url );
 		$body = wp_remote_retrieve_body( $resp );
+		unset( $resp );
 
 		if ( $body ) {
-			unset( $resp );
 			$body = json_decode( $body );
 			foreach ( $body->translation_sets as $set ) {
 				if ( $this->locale == $set->wp_locale ) {
