@@ -5,7 +5,7 @@ Promote your own translation site for people who are using your plugin in anothe
 
 ## Example of the rendered promo box
 
-[![Example promo box](http://uploads.yoast.nl/i18n-promo-box_1A1B3FFF.png)
+[![Example promo box](http://uploads.yoast.nl/i18n-promo-box_1A1B3FFF.png)]
 
 ## How to use this module
 Just include the library as a submodule, make sure the class is loaded and instantiate it like this:
