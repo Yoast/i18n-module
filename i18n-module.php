@@ -6,34 +6,6 @@
 class yoast_i18n {
 
 	/**
-	 * Hook where you want to show the promo box
-	 *
-	 * @var string
-	 */
-	private $hook;
-
-	/**
-	 * Name of your plugin
-	 *
-	 * @var string
-	 */
-	private $plugin_name;
-
-	/**
-	 * Project slug for the project on your translation site
-	 *
-	 * @var string
-	 */
-	private $project_slug;
-
-	/**
-	 * Your plugins textdomain
-	 *
-	 * @var string
-	 */
-	private $textdomain;
-
-	/**
 	 * Your translation site's logo
 	 *
 	 * @var string
@@ -53,6 +25,13 @@ class yoast_i18n {
 	 * @var string
 	 */
 	private $glotpress_url;
+
+	/**
+	 * Hook where you want to show the promo box
+	 *
+	 * @var string
+	 */
+	private $hook;
 
 	/**
 	 * Will contain the site's locale
@@ -77,6 +56,34 @@ class yoast_i18n {
 	 * @var int
 	 */
 	private $percent_translated;
+
+	/**
+	 * Name of your plugin
+	 *
+	 * @var string
+	 */
+	private $plugin_name;
+
+	/**
+	 * Project slug for the project on your translation site
+	 *
+	 * @var string
+	 */
+	private $project_slug;
+
+	/**
+	 * URL to point to for registration links
+	 *
+	 * @var string
+	 */
+	private $register_url;
+
+	/**
+	 * Your plugins textdomain
+	 *
+	 * @var string
+	 */
+	private $textdomain;
 
 	/**
 	 * Indicates whether there's a translation available at all.
@@ -159,15 +166,16 @@ class yoast_i18n {
 	private function promo_message() {
 		$message = false;
 
-		$glotpress_link = '<a href="' . $this->glotpress_url . '">' . $this->glotpress_name . '</a>';
-
 		if ( $this->translation_loaded && $this->percent_translated < 90 ) {
-			$message = sprintf( __( 'As you can see, there is a translation of this plugin in %s. This translation is currently %s complete. We need your help to make it complete and to fix any errors. Please register at %s to help complete the %1$s translation!', 'yoast-18n' ), $this->locale_name, $this->percent_translated . '%', $glotpress_link );
+			$message = __( 'As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!', 'yoast-18n' );
 		} else if ( ! $this->translation_loaded && $this->translation_exists ) {
-			$message = sprintf( __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$s, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', 'yoast-18n' ), $this->locale_name, $this->plugin_name, $this->percent_translated . '%', $glotpress_link );
+			$message = __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', 'yoast-18n' );
 		} else if ( ! $this->translation_loaded && ! $this->translation_exists ) {
-			$message = sprintf( __( 'You\'re using WordPress in %s. We\'d love for %s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %s to help translate this plugin to %1$s!', 'yoast-18n' ), $this->locale_name, $this->plugin_name, $glotpress_link );
+			$message = __( 'You\'re using WordPress in %1$s. We\'d love for %2$s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate this plugin to %1$s!', 'yoast-18n' );
 		}
+
+		$registration_link = sprintf( '<a href="%s">%s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
+		$message           = sprintf( $message, esc_html( $this->locale_name ), esc_html( $this->plugin_name ), $this->percent_translated, $registration_link );
 
 		return $message;
 	}
@@ -185,10 +193,10 @@ class yoast_i18n {
 			echo '<a href="' . add_query_arg( array( 'remove_i18n_promo' => '1' ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 			echo '<h2>' . sprintf( __( 'Translation of %s', 'yoast-18n' ), $this->plugin_name ) . '</h2>';
 			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
-				echo '<a href="' . $this->glotpress_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->glotpress_logo . '" alt="' . $this->glotpress_name . '"/></a>';
+				echo '<a href="' . $this->register_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->glotpress_logo . '" alt="' . $this->glotpress_name . '"/></a>';
 			}
 			echo '<p>' . $message . '</p>';
-			echo '<p><a href="' . $this->glotpress_url . '">' . __( 'Register now &raquo;', 'yoast-18n' ) . '</a></p>';
+			echo '<p><a href="' . $this->register_url . '">' . __( 'Register now &raquo;', 'yoast-18n' ) . '</a></p>';
 			echo '</div>';
 		}
 	}
@@ -220,7 +228,7 @@ class yoast_i18n {
 		$set = $this->find_or_initialize_translation_details();
 
 		$this->translation_exists = ! is_null( $set );
-		$this->translation_loaded    = is_textdomain_loaded( $this->textdomain );
+		$this->translation_loaded = is_textdomain_loaded( $this->textdomain );
 
 		$this->parse_translation_set( $set );
 	}
@@ -232,6 +240,7 @@ class yoast_i18n {
 	 */
 	private function retrieve_translation_details() {
 		$project_api_url = $this->glotpress_url . 'api/projects/' . $this->project_slug;
+
 
 		$resp = wp_remote_get( $project_api_url );
 		$body = wp_remote_retrieve_body( $resp );
