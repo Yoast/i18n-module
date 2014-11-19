@@ -171,7 +171,7 @@ class yoast_i18n {
 		} else if ( ! $this->translation_loaded && $this->translation_exists ) {
 			$message = __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', 'yoast-18n' );
 		} else if ( ! $this->translation_loaded && ! $this->translation_exists ) {
-			$message = __( 'You\'re using WordPress in %1$s. We\'d love for %2$s to be translated in %1$s too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate this plugin to %1$s!', 'yoast-18n' );
+			$message = __( 'You\'re using WordPress in a language we don\'t support yet. We\'d love for %2$s to be translated in that language too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate it!', 'yoast-18n' );
 		}
 
 		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
@@ -230,7 +230,9 @@ class yoast_i18n {
 		$this->translation_exists = ! is_null( $set );
 		$this->translation_loaded = is_textdomain_loaded( $this->textdomain );
 
-		$this->parse_translation_set( $set );
+		if ( $this->translation_exists ) {
+			$this->parse_translation_set( $set );
+		}
 	}
 
 	/**
