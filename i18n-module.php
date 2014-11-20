@@ -230,9 +230,7 @@ class yoast_i18n {
 		$this->translation_exists = ! is_null( $set );
 		$this->translation_loaded = is_textdomain_loaded( $this->textdomain );
 
-		if ( $this->translation_exists ) {
-			$this->parse_translation_set( $set );
-		}
+		$this->parse_translation_set( $set );
 	}
 
 	/**
@@ -269,7 +267,12 @@ class yoast_i18n {
 	 * @access private
 	 */
 	private function parse_translation_set( $set ) {
-		$this->locale_name        = $set->name;
-		$this->percent_translated = $set->percent_translated;
+		if ( $this->translation_exists ) {
+			$this->locale_name        = $set->name;
+			$this->percent_translated = $set->percent_translated;
+		} else {
+			$this->locale_name        = '';
+			$this->percent_translated = '';
+		}
 	}
 }
