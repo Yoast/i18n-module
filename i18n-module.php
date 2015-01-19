@@ -267,7 +267,7 @@ class yoast_i18n {
 	 * @access private
 	 */
 	private function parse_translation_set( $set ) {
-		if ( $this->translation_exists ) {
+		if ( $this->translation_exists && is_object( $set ) ) {
 			$this->locale_name        = $set->name;
 			$this->percent_translated = $set->percent_translated;
 		} else {
