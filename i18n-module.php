@@ -209,11 +209,11 @@ class yoast_i18n {
 	 * @return object|null
 	 */
 	private function find_or_initialize_translation_details() {
-		$set = get_transient( 'yoast_i18n_' . $this->project_slug );
+		$set = get_transient( 'yoast_i18n_' . $this->project_slug . '_' . $this->locale );
 
 		if ( ! $set ) {
 			$set = $this->retrieve_translation_details();
-			set_transient( 'yoast_i18n_' . $this->project_slug, $set, DAY_IN_SECONDS );
+			set_transient( 'yoast_i18n_' . $this->project_slug . '_' . $this->locale, $set, DAY_IN_SECONDS );
 		}
 
 		return $set;
