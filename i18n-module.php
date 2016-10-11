@@ -25,6 +25,13 @@ class yoast_i18n {
 	 * @var string
 	 */
 	private $glotpress_url;
+	
+	/**
+	 * Set false as default for wordpressorg
+	 *
+	 * @var string
+	 */
+	private $wordpressorg = false;
 
 	/**
 	 * Hook where you want to show the promo box
@@ -192,7 +199,11 @@ class yoast_i18n {
 			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px;">';
 			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 			echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
-			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
+			if( $this->wordpressorg && is_bool( $this->glotpress_logo ) ) {
+				$this->glotpress_logo = 'https://plugins.svn.wordpress.org/' . $this->textdomain . '/assets/icon-256x256.png';
+				$this->register_url = 'https://translate.wordpress.org/projects/wp-plugins/' . $this->textdomain . '/';
+			} 
+			if( '' != $this->glotpress_logo ) {
 				echo '<a href="' . $this->register_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->glotpress_logo . '" alt="' . $this->glotpress_name . '"/></a>';
 			}
 			echo '<p>' . $message . '</p>';
@@ -242,7 +253,9 @@ class yoast_i18n {
 	 */
 	private function retrieve_translation_details() {
 		$api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
-
+		if ( $this->wordpressorg ) {
+			$api_url = 'https://translate.wordpress.org/api/projects/wp-plugins/' . $this->textdomain . '/stable/';
+		}
 		$resp = wp_remote_get( $api_url );
 		$body = wp_remote_retrieve_body( $resp );
 		unset( $resp );
