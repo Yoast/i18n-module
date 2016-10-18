@@ -244,17 +244,23 @@ class yoast_i18n {
 		$api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
 
 		$resp = wp_remote_get( $api_url );
+		if ( is_wp_error( $resp ) || wp_remote_retrieve_response_code( $resp ) !== 200 ) {
+			return null;
+		}
 		$body = wp_remote_retrieve_body( $resp );
 		unset( $resp );
 
 		if ( $body ) {
 			$body = json_decode( $body );
+			if ( empty( $body->success ) ) {
+				return null;
+			}
 			foreach ( $body->translation_sets as $set ) {
 				if ( ! property_exists( $set, 'wp_locale' ) ) {
 					continue;
 				}
 
-				if ( $this->locale == $set->wp_locale ) {
+				if ( $this->locale === $set->wp_locale ) {
 					return $set;
 				}
 			}
