@@ -244,7 +244,7 @@ class yoast_i18n {
 		$api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
 
 		$resp = wp_remote_get( $api_url );
-		if ( is_wp_error( $resp ) || wp_remote_retrieve_response_code( $resp ) !== 200 ) {
+		if ( is_wp_error( $resp ) || wp_remote_retrieve_response_code( $resp ) === '404' ) {
 			return null;
 		}
 		$body = wp_remote_retrieve_body( $resp );
