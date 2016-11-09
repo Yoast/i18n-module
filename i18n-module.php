@@ -252,7 +252,7 @@ class yoast_i18n {
 
 		if ( $body ) {
 			$body = json_decode( $body );
-			if ( empty( $body->success ) ) {
+			if ( empty( $body->success ) || empty( $body->translation_sets ) ) {
 				return null;
 			}
 			foreach ( $body->translation_sets as $set ) {
