@@ -111,7 +111,7 @@ class yoast_i18n {
 			return;
 		}
 
-		$this->locale = get_admin_locale();
+		$this->locale = $this->get_admin_locale();
 		if ( 'en_US' === $this->locale ) {
 			return;
 		}
