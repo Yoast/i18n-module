@@ -111,7 +111,7 @@ class yoast_i18n {
 			return;
 		}
 
-		$this->locale = get_locale();
+		$this->locale = $this->get_admin_locale();
 		if ( 'en_US' === $this->locale ) {
 			return;
 		}
@@ -121,6 +121,25 @@ class yoast_i18n {
 		if ( ! $this->hide_promo() ) {
 			add_action( $this->hook, array( $this, 'promo' ) );
 		}
+	}
+
+	/**
+	 * Returns the locale used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site’s locale.
+	 *
+	 * @returns string The locale.
+	 */
+	private function get_admin_locale() {
+		if ( function_exists( 'get_user_locale' ) ) {
+			return get_user_locale();
+		}
+
+		return get_locale();
 	}
 
 	/**
