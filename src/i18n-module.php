@@ -27,6 +27,13 @@ class yoast_i18n {
 	private $glotpress_url;
 
 	/**
+	 * The URL to actually do the API request to
+	 *
+	 * @var string
+	 */
+	private $api_url;
+
+	/**
 	 * Hook where you want to show the promo box
 	 *
 	 * @var string
@@ -208,14 +215,17 @@ class yoast_i18n {
 		$message = $this->promo_message();
 
 		if ( $message ) {
-			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px;">';
-			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
-			echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
-			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
-				echo '<a href="' . $this->register_url . '"><img class="alignright" style="margin:15px 5px 5px 5px;width:200px;" src="' . $this->glotpress_logo . '" alt="' . $this->glotpress_name . '"/></a>';
-			}
-			echo '<p>' . $message . '</p>';
-			echo '<p><a href="' . $this->register_url . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px; overflow: hidden;">';
+				echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
+
+				echo '<div>';
+					echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
+					if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
+						echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
+					}
+					echo '<p>' . $message . '</p>';
+					echo '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+				echo '</div>';
 			echo '</div>';
 		}
 	}
@@ -253,6 +263,28 @@ class yoast_i18n {
 	}
 
 	/**
+	 * The API URL to use when requesting translation information.
+	 *
+	 * @param string $api_url The new API URL.
+	 */
+	public function set_api_url( $api_url ) {
+		$this->api_url = $api_url;
+	}
+
+	/**
+	 * Returns the API URL to use when requesting translation information.
+	 *
+	 * @return string
+	 */
+	private function get_api_url() {
+		if ( empty( $this->api_url ) ) {
+			$this->api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
+		}
+
+		return $this->api_url;
+	}
+
+	/**
 	 * Retrieve the translation details from Yoast Translate
 	 *
 	 * @access private
@@ -260,7 +292,7 @@ class yoast_i18n {
 	 * @return object|null
 	 */
 	private function retrieve_translation_details() {
-		$api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
+		$api_url = $this->get_api_url();
 
 		$resp = wp_remote_get( $api_url );
 		if ( is_wp_error( $resp ) || wp_remote_retrieve_response_code( $resp ) !== 200 ) {
