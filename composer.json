@@ -15,6 +15,6 @@
         "issues": "https://github.com/Yoast/i18n-module/issues"
     },
     "autoload"   : {
-        "classmap": ["i18n-module.php"]
+        "classmap": ["src/"]
     }
 }
