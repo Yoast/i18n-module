@@ -49,7 +49,7 @@ class yoast_i18n {
 	private $locale;
 
 	/**
-	 * Will contain the locale's name, obtained from yoru translation site
+	 * Will contain the locale's name, obtained from your translation site
 	 *
 	 * @access private
 	 * @var string
