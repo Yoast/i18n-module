@@ -25,8 +25,8 @@ $wpseo_i18n = new yoast_i18n_v2(
 	array(
 		'textdomain'     => 'wordpress-seo',
 		'project_slug'   => 'wordpress-seo',
-		'plugin_name'    => 'WordPress SEO by Yoast',
-		'hook'           => 'wpseo_admin_footer',
+		'plugin_name'    => 'Yoast SEO',
+		'hook'           => 'wpseo_admin_promo_footer',
 		'glotpress_url'  => 'http://translate.yoast.com',
 		'glotpress_name' => 'Yoast Translate',
 		'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
