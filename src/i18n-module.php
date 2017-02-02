@@ -221,10 +221,10 @@ class yoast_i18n {
 				echo '<div>';
 					echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
 					if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
-						echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
+						echo '<a href="' . $this->register_url . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . $this->glotpress_logo . '" alt="' . $this->glotpress_name . '"/></a>';
 					}
 					echo '<p>' . $message . '</p>';
-					echo '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+					echo '<p><a href="' . $this->register_url . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
 				echo '</div>';
 			echo '</div>';
 		}
@@ -263,19 +263,14 @@ class yoast_i18n {
 	}
 
 	/**
-	 * The API URL to use when requesting translation information.
+	 * The API URL to use when requesting translations
 	 *
-	 * @param string $api_url The new API URL.
+	 * @param string $api_url The new API URL
 	 */
 	public function set_api_url( $api_url ) {
 		$this->api_url = $api_url;
 	}
 
-	/**
-	 * Returns the API URL to use when requesting translation information.
-	 *
-	 * @return string
-	 */
 	private function get_api_url() {
 		if ( empty( $this->api_url ) ) {
 			$this->api_url = trailingslashit( $this->glotpress_url ) . 'api/projects/' . $this->project_slug;
