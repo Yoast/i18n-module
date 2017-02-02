@@ -34,3 +34,15 @@ $wpseo_i18n = new yoast_i18n_v2(
 	)
 );
 ```
+
+Because translate.wordpress.org is also a GlotPress installation you can use the i18n-module to promote translation your plugin on there. To do this you can use the dedicated wordpress.org class:
+
+```php
+new Yoast_I18n_WordPressOrg(
+	array(
+		'textdomain'  => 'wordpress-seo',
+		'plugin_name' => 'Yoast SEO',
+		'hook'        => 'wpseo_admin_promo_footer',
+	)
+);
+```
