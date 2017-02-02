@@ -14,7 +14,7 @@ The image, the name of your plugin and the name of your translation project are 
 Just include the library as a submodule, make sure the class is loaded and instantiate it like this:
 
 ```php
-$wpseo_i18n = new yoast_i18n(
+$wpseo_i18n = new yoast_i18n_v2(
 	array(
 		'textdomain'     => 'wordpress-seo',
 		'project_slug'   => 'wordpress-seo',
