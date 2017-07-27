@@ -206,11 +206,9 @@ class Yoast_I18n_v2 {
 			$notification_center->add_notification( $notification );
 
 			if ( 'en_US' !== $this->locale ) {
-				printf("<script>console.log('%s');</script>", 'Voeg de notificatie toe' );
 				$notification_center->add_notification( $notification );
 			}
 			else {
-				printf("<script>console.log('%s');</script>", 'Haal de notificatie weg' );
 				$notification_center->remove_notification( $notification );
 			}
 		}
