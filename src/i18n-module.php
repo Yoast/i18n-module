@@ -119,9 +119,15 @@ class Yoast_I18n_v2 {
 		}
 
 		$this->locale = $this->get_admin_locale();
+		if ( 'en_US' === $this->locale ) {
+			return;
+		}
+
 		$this->init( $args );
 
-		add_action( $this->hook, array( $this, 'promo' ) );
+		if ( ! $this->hide_promo() ) {
+			add_action( $this->hook, array( $this, 'promo' ) );
+		}
 	}
 
 	/**
@@ -157,6 +163,26 @@ class Yoast_I18n_v2 {
 	}
 
 	/**
+	 * Check whether the promo should be hidden or not
+	 *
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function hide_promo() {
+		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
+		if ( ! $hide_promo ) {
+			if ( filter_input( INPUT_GET, 'remove_i18n_promo', FILTER_VALIDATE_INT ) === 1 ) {
+				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
+				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
+				$hide_promo = true;
+			}
+		}
+
+		return $hide_promo;
+	}
+
+	/**
 	 * Generates a promo message
 	 *
 	 * @access private
@@ -189,28 +215,18 @@ class Yoast_I18n_v2 {
 		$message = $this->promo_message();
 
 		if ( $message ) {
-			if ( ! class_exists( 'Yoast_Notification_Center' ) ) {
-				return;
+			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px; overflow: hidden;">';
+			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
+
+			echo '<div>';
+			echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
+			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
+				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
-
-			$notification_center = Yoast_Notification_Center::get();
-
-			$notification        = new Yoast_Notification(
-				$this->promo_message() . '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>',
-				array(
-					'type' => Yoast_Notification::WARNING,
-					'id'   => 'i18nModuleTranslationAssistance',
-				)
-			);
-
-			$notification_center->add_notification( $notification );
-
-			if ( 'en_US' !== $this->locale ) {
-				$notification_center->add_notification( $notification );
-			}
-			else {
-				$notification_center->remove_notification( $notification );
-			}
+			echo '<p>' . $message . '</p>';
+			echo '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+			echo '</div>';
+			echo '</div>';
 		}
 	}
 
