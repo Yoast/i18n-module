@@ -111,23 +111,27 @@ class Yoast_I18n_v2 {
 	/**
 	 * Class constructor
 	 *
-	 * @param array $args Contains the settings for the class.
+	 * @param array $args                   Contains the settings for the class.
+	 * @param bool $show_translation_box    Whether the translation box should be shown.
 	 */
-	public function __construct( $args ) {
-		if ( ! is_admin() ) {
-			return;
-		}
+	public function __construct( $args, $show_translation_box = true ) {
+		if( $this->is_admin_in_other_language() ) {
+			$this->init( $args );
 
+			if ( $show_translation_box ) {
+				add_action( $this->hook, array( $this, 'promo' ) );
+			}
+		}
+	}
+
+	/**
+	 * Returns whether admin is loaded and the language is not en_US.
+	 *
+	 * @return bool If admin is loaded and the language is not en_US.
+	 */
+	public function is_admin_in_other_language() {
 		$this->locale = $this->get_admin_locale();
-		if ( 'en_US' === $this->locale ) {
-			return;
-		}
-
-		$this->init( $args );
-
-		if ( ! $this->hide_promo() ) {
-			add_action( $this->hook, array( $this, 'promo' ) );
-		}
+		return is_admin() && 'en_US' !== $this->locale;
 	}
 
 	/**
@@ -162,34 +166,18 @@ class Yoast_I18n_v2 {
 		}
 	}
 
-	/**
-	 * Check whether the promo should be hidden or not
-	 *
-	 * @access private
-	 *
-	 * @return bool
-	 */
-	private function hide_promo() {
-		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
-		if ( ! $hide_promo ) {
-			if ( filter_input( INPUT_GET, 'remove_i18n_promo', FILTER_VALIDATE_INT ) === 1 ) {
-				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
-				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
-				$hide_promo = true;
-			}
-		}
-
-		return $hide_promo;
-	}
 
 	/**
 	 * Generates a promo message
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @return bool|string $message
 	 */
-	private function promo_message() {
+	public function promo_message() {
+
+		$this->translation_details();
+
 		$message = false;
 
 		if ( $this->translation_exists && $this->translation_loaded && $this->percent_translated < 90 ) {
@@ -203,15 +191,19 @@ class Yoast_I18n_v2 {
 		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
 		$message           = sprintf( $message, esc_html( $this->locale_name ), esc_html( $this->plugin_name ), $this->percent_translated, $registration_link );
 
+		if( $message ) {
+			$message = '<p>' . $message . '</p>' . '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+		}
+
 		return $message;
 	}
 
 	/**
-	 * Outputs a promo box
+	 * Outputs a promo box.
+	 *
+	 * @access public
 	 */
 	public function promo() {
-		$this->translation_details();
-
 		$message = $this->promo_message();
 
 		if ( $message ) {
@@ -223,8 +215,7 @@ class Yoast_I18n_v2 {
 			if ( isset( $this->glotpress_logo ) && '' != $this->glotpress_logo ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
-			echo '<p>' . $message . '</p>';
-			echo '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+			echo $message;
 			echo '</div>';
 			echo '</div>';
 		}

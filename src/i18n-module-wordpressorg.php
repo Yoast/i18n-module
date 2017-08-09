@@ -15,13 +15,32 @@ class Yoast_I18n_WordPressOrg_v2 {
 	/**
 	 * Constructs the i18n module for wordpress.org. Required fields are the 'textdomain', 'plugin_name' and 'hook'
 	 *
-	 * @param array $args The settings for the i18n module.
+	 * @param array $args                   The settings for the i18n module.
+	 * @param bool $show_translation_box    Whether the translation box should be shown.
 	 */
-	public function __construct( $args ) {
+	public function __construct( $args, $show_translation_box = true ) {
 		$args = $this->set_defaults( $args );
 
-		$this->i18n = new Yoast_I18n_v2( $args );
+		$this->i18n = new Yoast_I18n_v2( $args, $show_translation_box );
 		$this->set_api_url( $args['textdomain'] );
+	}
+
+	/**
+	 * Returns the i18n_promo message from the i18n_module.
+	 *
+	 * @return string The i18n promo message.
+	 */
+	public function promo_message() {
+		return $this->i18n->promo_message();
+	}
+
+	/**
+	 * Returns whether admin is loaded and the language is not en_US.
+	 *
+	 * @return bool If admin is loaded and the language is not en_US.
+	 */
+	public function is_admin_in_other_language() {
+		return $this->i18n->is_admin_in_other_language();
 	}
 
 	/**
