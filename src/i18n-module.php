@@ -130,9 +130,9 @@ class Yoast_I18n_v2 {
 	}
 
 	/**
-	 * Returns whether admin is loaded and the language is not en_US.
+	 * Returns whether the language is en_US.
 	 *
-	 * @return bool If admin is loaded and the language is not en_US.
+	 * @return bool Returns true if the language is en_US.
 	 */
 	protected function is_default_language() {
 		return 'en_US' === $this->locale;
