@@ -115,9 +115,13 @@ class Yoast_I18n_v2 {
 	 * @param bool $show_translation_box    Whether the translation box should be shown.
 	 */
 	public function __construct( $args, $show_translation_box = true ) {
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		$this->locale = $this->get_admin_locale();
 
-		if( $this->is_admin_in_other_language() ) {
+		if( ! $this->is_default_language() ) {
 			$this->init( $args );
 			if ( $show_translation_box && ! $this->hide_promo() ) {
 				add_action( $this->hook, array( $this, 'promo' ) );
@@ -130,8 +134,8 @@ class Yoast_I18n_v2 {
 	 *
 	 * @return bool If admin is loaded and the language is not en_US.
 	 */
-	public function is_admin_in_other_language() {
-		return is_admin() && 'en_US' !== $this->locale;
+	protected function is_default_language() {
+		return 'en_US' === $this->locale;
 	}
 
 	/**
@@ -191,7 +195,7 @@ class Yoast_I18n_v2 {
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
-		if ( $this->is_admin_in_other_language() ) {
+		if ( ! $this->is_default_language() ) {
 			return $this->promo_message();
 		}
 
