@@ -30,17 +30,8 @@ class Yoast_I18n_WordPressOrg_v2 {
 	 *
 	 * @return string The i18n promo message.
 	 */
-	public function promo_message() {
-		return $this->i18n->promo_message();
-	}
-
-	/**
-	 * Returns whether admin is loaded and the language is not en_US.
-	 *
-	 * @return bool If admin is loaded and the language is not en_US.
-	 */
-	public function is_admin_in_other_language() {
-		return $this->i18n->is_admin_in_other_language();
+	public function get_promo_message() {
+		return $this->i18n->get_promo_message();
 	}
 
 	/**

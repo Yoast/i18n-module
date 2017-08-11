@@ -115,10 +115,11 @@ class Yoast_I18n_v2 {
 	 * @param bool $show_translation_box    Whether the translation box should be shown.
 	 */
 	public function __construct( $args, $show_translation_box = true ) {
+		$this->locale = $this->get_admin_locale();
+
 		if( $this->is_admin_in_other_language() ) {
 			$this->init( $args );
-
-			if ( $show_translation_box ) {
+			if ( $show_translation_box && ! $this->hide_promo() ) {
 				add_action( $this->hook, array( $this, 'promo' ) );
 			}
 		}
@@ -130,7 +131,6 @@ class Yoast_I18n_v2 {
 	 * @return bool If admin is loaded and the language is not en_US.
 	 */
 	public function is_admin_in_other_language() {
-		$this->locale = $this->get_admin_locale();
 		return is_admin() && 'en_US' !== $this->locale;
 	}
 
@@ -166,6 +166,39 @@ class Yoast_I18n_v2 {
 		}
 	}
 
+	/**
+	 * Check whether the promo should be hidden or not
+	 *
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function hide_promo() {
+		$hide_promo = get_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide' );
+		if ( ! $hide_promo ) {
+			if ( filter_input( INPUT_GET, 'remove_i18n_promo', FILTER_VALIDATE_INT ) === 1 ) {
+				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
+				set_transient( 'yoast_i18n_' . $this->project_slug . '_promo_hide', true );
+				$hide_promo = true;
+			}
+		}
+		return $hide_promo;
+	}
+
+	/**
+	 * Returns the i18n_promo message from the i18n_module if the i18n promo should be shown.
+	 *
+	 * @return string The i18n promo message.
+	 */
+	public function get_promo_message() {
+		if ( $this->is_admin_in_other_language() ) {
+			return $this->promo_message();
+		}
+
+		return '';
+	}
+
+
 
 	/**
 	 * Generates a promo message
@@ -174,7 +207,7 @@ class Yoast_I18n_v2 {
 	 *
 	 * @return bool|string $message
 	 */
-	public function promo_message() {
+	private function promo_message() {
 
 		$this->translation_details();
 
@@ -204,7 +237,7 @@ class Yoast_I18n_v2 {
 	 * @access public
 	 */
 	public function promo() {
-		$message = $this->promo_message();
+		$message = $this->get_promo_message();
 
 		if ( $message ) {
 			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px; overflow: hidden;">';
