@@ -121,21 +121,26 @@ class Yoast_I18n_v2 {
 
 		$this->locale = $this->get_admin_locale();
 
-		if( ! $this->is_default_language() ) {
-			$this->init( $args );
-			if ( $show_translation_box && ! $this->hide_promo() ) {
-				add_action( $this->hook, array( $this, 'promo' ) );
-			}
+		if( $this->is_default_language( $this->locale ) ) {
+			return;
+
+		}
+
+		$this->init( $args );
+		if ( $show_translation_box && ! $this->hide_promo() ) {
+			add_action( $this->hook, array( $this, 'promo' ) );
 		}
 	}
 
 	/**
 	 * Returns whether the language is en_US.
 	 *
+	 * @param string $language The language to
+	 *
 	 * @return bool Returns true if the language is en_US.
 	 */
-	protected function is_default_language() {
-		return 'en_US' === $this->locale;
+	protected function is_default_language( $language  ) {
+		return 'en_US' === $language;
 	}
 
 	/**
@@ -192,22 +197,22 @@ class Yoast_I18n_v2 {
 	/**
 	 * Returns the i18n_promo message from the i18n_module if the i18n promo should be shown.
 	 *
+	 * @access public
+	 *
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
-		if ( ! $this->is_default_language() ) {
+		if ( ! $this->is_default_language( $this->locale ) ) {
 			return $this->promo_message();
 		}
 
 		return '';
 	}
 
-
-
 	/**
 	 * Generates a promo message
 	 *
-	 * @access public
+	 * @access private
 	 *
 	 * @return bool|string $message
 	 */
@@ -228,7 +233,7 @@ class Yoast_I18n_v2 {
 		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
 		$message           = sprintf( $message, esc_html( $this->locale_name ), esc_html( $this->plugin_name ), $this->percent_translated, $registration_link );
 
-		if( $message ) {
+		if ( $message ) {
 			$message = '<p>' . $message . '</p>' . '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
 		}
 
