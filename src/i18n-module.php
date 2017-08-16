@@ -121,12 +121,13 @@ class Yoast_I18n_v2 {
 
 		$this->locale = $this->get_admin_locale();
 
-		if( $this->is_default_language( $this->locale ) ) {
+		if ( $this->is_default_language( $this->locale ) ) {
 			return;
 
 		}
 
 		$this->init( $args );
+
 		if ( $show_translation_box && ! $this->hide_promo() ) {
 			add_action( $this->hook, array( $this, 'promo' ) );
 		}
@@ -135,7 +136,7 @@ class Yoast_I18n_v2 {
 	/**
 	 * Returns whether the language is en_US.
 	 *
-	 * @param string $language The language to
+	 * @param string $language The language to check.
 	 *
 	 * @return bool Returns true if the language is en_US.
 	 */
