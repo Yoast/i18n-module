@@ -123,12 +123,11 @@ class Yoast_I18n_v2 {
 
 		if ( $this->is_default_language( $this->locale ) ) {
 			return;
-
 		}
 
 		$this->init( $args );
 
-		if ( $show_translation_box && ! $this->hide_promo() ) {
+		if ( $show_translation_box ) {
 			add_action( $this->hook, array( $this, 'promo' ) );
 		}
 	}
@@ -203,7 +202,7 @@ class Yoast_I18n_v2 {
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
-		if ( ! $this->is_default_language( $this->locale ) ) {
+		if ( ( ! $this->is_default_language( $this->locale )  ) && ( ! $this->hide_promo() ) ) {
 			return $this->promo_message();
 		}
 
@@ -239,6 +238,22 @@ class Yoast_I18n_v2 {
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Returns a button that can be used to dismiss the i18n-message.
+	 *
+	 * @access private
+	 *
+	 * @return string
+	 */
+	public function get_dismiss_i18n_message_button() {
+		return sprintf(
+		/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+			__( '%1$sPlease don\'t show me this notification anymore%2$s', $this->textdomain ),
+			'<a class="button" href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '">',
+			'</a>'
+		);
 	}
 
 	/**

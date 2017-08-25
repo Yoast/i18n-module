@@ -26,13 +26,25 @@ class Yoast_I18n_WordPressOrg_v2 {
 	}
 
 	/**
-	 * Returns the i18n_promo message from the i18n_module. Returns en empty string if the
-	 * promo shouldn't be shown.
+	 * Returns the i18n_promo message from the i18n_module if the i18n promo should be shown.
+	 *
+	 * @access public
 	 *
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
 		return $this->i18n->get_promo_message();
+	}
+
+	/**
+	 * Returns a button that can be used to dismiss the i18n-message.
+	 *
+	 * @access private
+	 *
+	 * @return string
+	 */
+	public function get_dismiss_i18n_message_button() {
+		return $this->i18n->get_dismiss_i18n_message_button();
 	}
 
 	/**
