@@ -195,14 +195,14 @@ class Yoast_I18n_v2 {
 	}
 
 	/**
-	 * Returns the i18n_promo message from the i18n_module if the i18n promo should be shown.
+	 * Returns the i18n_promo message from the i18n_module. Returns en empty string if the promo shouldn't be shown.
 	 *
 	 * @access public
 	 *
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
-		if ( ( ! $this->is_default_language( $this->locale )  ) && ( ! $this->hide_promo() ) ) {
+		if ( ! $this->is_default_language( $this->locale ) && ! $this->hide_promo() ) {
 			return $this->promo_message();
 		}
 
@@ -249,7 +249,7 @@ class Yoast_I18n_v2 {
 	 */
 	public function get_dismiss_i18n_message_button() {
 		return sprintf(
-		/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
 			__( '%1$sPlease don\'t show me this notification anymore%2$s', $this->textdomain ),
 			'<a class="button" href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '">',
 			'</a>'

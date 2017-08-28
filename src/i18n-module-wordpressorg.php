@@ -26,7 +26,7 @@ class Yoast_I18n_WordPressOrg_v2 {
 	}
 
 	/**
-	 * Returns the i18n_promo message from the i18n_module if the i18n promo should be shown.
+	 * Returns the i18n_promo message from the i18n_module. Returns en empty string if the promo shouldn't be shown.
 	 *
 	 * @access public
 	 *
