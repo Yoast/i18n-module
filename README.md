@@ -23,14 +23,14 @@ Make sure the class is loaded and instantiate it like this:
 ```php
 new Yoast_I18n_v2(
 	array(
-		'textdomain'     => 'wordpress-seo',
-		'project_slug'   => 'wordpress-seo',
-		'plugin_name'    => 'Yoast SEO',
-		'hook'           => 'wpseo_admin_promo_footer',
-		'glotpress_url'  => 'http://translate.yoast.com',
-		'glotpress_name' => 'Yoast Translate',
-		'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-		'register_url '  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=i18n-promo',
+		'textdomain'     => '{your text domain}',
+		'project_slug'   => '{your probject slug}',
+		'plugin_name'    => '{your plugin name}',
+		'hook'           => '{the hook to display the message box on}',
+		'glotpress_url'  => '{url to your glotpress installation; http://translate.yoast.com}',
+		'glotpress_name' => '{name of your glotpress installation}',
+		'glotpress_logo' => '{url to a logo which will be shown}',
+		'register_url '  => '{url to use when registering for a project}',
 	)
 );
 ```
@@ -40,9 +40,9 @@ Because translate.wordpress.org is also a GlotPress installation you can use the
 ```php
 new Yoast_I18n_WordPressOrg_v2(
 	array(
-		'textdomain'  => 'wordpress-seo',
-		'plugin_name' => 'Yoast SEO',
-		'hook'        => 'wpseo_admin_promo_footer',
+		'textdomain'  => '{your text domain}',
+		'plugin_name' => '{your plugin name}',
+		'hook'        => '{hook to display the message box on}',
 	)
 );
 ```
