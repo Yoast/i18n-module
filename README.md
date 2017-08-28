@@ -21,7 +21,7 @@ Alternatively you can include the library as a submodule.
 Make sure the class is loaded and instantiate it like this:
 
 ```php
-$wpseo_i18n = new yoast_i18n_v2(
+new Yoast_I18n_v2(
 	array(
 		'textdomain'     => 'wordpress-seo',
 		'project_slug'   => 'wordpress-seo',
@@ -45,4 +45,38 @@ new Yoast_I18n_WordPressOrg_v2(
 		'hook'        => 'wpseo_admin_promo_footer',
 	)
 );
+```
+
+### Customize where and when to render the message
+
+Since 2.1.0 you can also decide to render the message in a message-box of your own, just provide the second argument to the constructor as `false` to disable the showing of the box by the module itself.
+
+```php
+$i18n_module = new Yoast_I18n_v2(
+	array(
+		'textdomain'     => '{your text domain}',
+		'project_slug'   => '{your probject slug}',
+		'plugin_name'    => '{your plugin name}',
+		'hook'           => '{the hook to display the message on - not used in this example}',
+		'glotpress_url'  => '{url to your glotpress installation; http://translate.yoast.com}',
+		'glotpress_name' => '{name of your glotpress installation}',
+		'glotpress_logo' => '{url to a logo which will be shown}',
+		'register_url '  => '{url to use when registering for a project}',
+	),
+	false
+);
+
+$message = $i18n_module->get_promo_message();
+```
+
+```php
+$i18n_module = new Yoast_I18n_WordPressOrg_v2(
+	array(
+		'textdomain'  => '{your text domain}',
+		'plugin_name' => '{your plugin name}',
+		'hook'        => '{hook to display the message on - not used in this example}',
+	), false
+);
+
+$message = $i18n_module->get_promo_message();
 ```
