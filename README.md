@@ -75,7 +75,8 @@ $i18n_module = new Yoast_I18n_WordPressOrg_v2(
 		'textdomain'  => '{your text domain}',
 		'plugin_name' => '{your plugin name}',
 		'hook'        => '{hook to display the message on - not used in this example}',
-	), false
+	),
+	false
 );
 
 $message = $i18n_module->get_promo_message();
