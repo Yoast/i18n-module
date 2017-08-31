@@ -21,7 +21,7 @@ Alternatively you can include the library as a submodule.
 Make sure the class is loaded and instantiate it like this:
 
 ```php
-$wpseo_i18n = new yoast_i18n_v2(
+$wpseo_i18n = new yoast_i18n_v3(
 	array(
 		'textdomain'     => 'wordpress-seo',
 		'project_slug'   => 'wordpress-seo',
@@ -38,7 +38,7 @@ $wpseo_i18n = new yoast_i18n_v2(
 Because translate.wordpress.org is also a GlotPress installation you can use the i18n-module to promote translation your plugin on there. To do this you can use the dedicated wordpress.org class:
 
 ```php
-new Yoast_I18n_WordPressOrg_v2(
+new Yoast_I18n_WordPressOrg_v3(
 	array(
 		'textdomain'  => 'wordpress-seo',
 		'plugin_name' => 'Yoast SEO',
