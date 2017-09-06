@@ -21,7 +21,7 @@ Alternatively you can include the library as a submodule.
 Make sure the class is loaded and instantiate it like this:
 
 ```php
-new yoast_i18n_v3(
+new Yoast_I18n_v3(
 	array(
 		'textdomain'     => '{your text domain}',
 		'project_slug'   => '{your probject slug}',
