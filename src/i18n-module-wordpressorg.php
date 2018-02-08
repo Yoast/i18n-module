@@ -3,12 +3,12 @@
 /**
  * The Yoast i18n module with a connection to WordPress.org.
  */
-class Yoast_I18n_WordPressOrg_v3 {
+class Yoast_I18n_WordPressOrg_V3 {
 
 	/**
 	 * The i18n object that presents the user with the notification.
 	 *
-	 * @var yoast_i18n_v3
+	 * @var yoast_i18n_V3
 	 */
 	protected $i18n;
 
@@ -21,7 +21,7 @@ class Yoast_I18n_WordPressOrg_v3 {
 	public function __construct( $args, $show_translation_box = true ) {
 		$args = $this->set_defaults( $args );
 
-		$this->i18n = new Yoast_I18n_v3( $args, $show_translation_box );
+		$this->i18n = new Yoast_I18n_V3( $args, $show_translation_box );
 		$this->set_api_url( $args['textdomain'] );
 	}
 
