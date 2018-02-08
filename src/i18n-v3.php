@@ -241,8 +241,19 @@ class Yoast_I18n_V3 {
 			$message = __( 'You\'re using WordPress in a language we don\'t support yet. We\'d love for %2$s to be translated in that language too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate it!', $this->textdomain );
 		}
 
-		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
-		$message           = sprintf( esc_html( $message ), esc_html( $this->locale_name ), esc_html( $this->plugin_name ), (int) $this->percent_translated, $registration_link );
+		$registration_link = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( $this->register_url ),
+			esc_html( $this->glotpress_name )
+		);
+
+		$message = sprintf(
+			esc_html( $message ),
+			esc_html( $this->locale_name ),
+			esc_html( $this->plugin_name ),
+			(int) $this->percent_translated,
+			$registration_link
+		);
 
 		if ( $message ) {
 			$message = '<p>' . $message . '</p><p><a href="' . esc_url( $this->register_url ) . '">' . esc_html__( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
