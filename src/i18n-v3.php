@@ -229,10 +229,13 @@ class Yoast_I18n_V3 {
 		$message = false;
 
 		if ( $this->translation_exists && $this->translation_loaded && $this->percent_translated < 90 ) {
+			/* translators: 1: language name; 3: completion percentage; 4: link to translation platform. */
 			$message = __( 'As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!', $this->textdomain );
 		} else if ( ! $this->translation_loaded && $this->translation_exists ) {
+			/* translators: 1: language name; 2: plugin name; 3: completion percentage; 4: link to translation platform. */
 			$message = __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', $this->textdomain );
 		} else if ( ! $this->translation_exists ) {
+			/* translators: 2: plugin name; 4: link to translation platform. */
 			$message = __( 'You\'re using WordPress in a language we don\'t support yet. We\'d love for %2$s to be translated in that language too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate it!', $this->textdomain );
 		}
 
@@ -275,6 +278,7 @@ class Yoast_I18n_V3 {
 			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 
 			echo '<div>';
+			/* translators: %s: plugin name. */
 			echo '<h2>' . sprintf( esc_html__( 'Translation of %s', $this->textdomain ), esc_html( $this->plugin_name ) ) . '</h2>';
 			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && '' !== $this->glotpress_logo ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
