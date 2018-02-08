@@ -145,7 +145,7 @@ class Yoast_I18n_V3 {
 	 *
 	 * @return bool Returns true if the language is en_US.
 	 */
-	protected function is_default_language( $language  ) {
+	protected function is_default_language( $language ) {
 		return 'en_US' === $language;
 	}
 
@@ -231,10 +231,12 @@ class Yoast_I18n_V3 {
 		if ( $this->translation_exists && $this->translation_loaded && $this->percent_translated < 90 ) {
 			/* translators: 1: language name; 3: completion percentage; 4: link to translation platform. */
 			$message = __( 'As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!', $this->textdomain );
-		} else if ( ! $this->translation_loaded && $this->translation_exists ) {
+		}
+		elseif ( ! $this->translation_loaded && $this->translation_exists ) {
 			/* translators: 1: language name; 2: plugin name; 3: completion percentage; 4: link to translation platform. */
 			$message = __( 'You\'re using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it\'s not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!', $this->textdomain );
-		} else if ( ! $this->translation_exists ) {
+		}
+		elseif ( ! $this->translation_exists ) {
 			/* translators: 2: plugin name; 4: link to translation platform. */
 			$message = __( 'You\'re using WordPress in a language we don\'t support yet. We\'d love for %2$s to be translated in that language too, but unfortunately, it isn\'t right now. You can change that! Register at %4$s to help translate it!', $this->textdomain );
 		}
@@ -243,7 +245,7 @@ class Yoast_I18n_V3 {
 		$message           = sprintf( esc_html( $message ), esc_html( $this->locale_name ), esc_html( $this->plugin_name ), (int) $this->percent_translated, $registration_link );
 
 		if ( $message ) {
-			$message = '<p>' . $message . '</p>' . '<p><a href="' . esc_url( $this->register_url ) . '">' . esc_html__( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+			$message = '<p>' . $message . '</p><p><a href="' . esc_url( $this->register_url ) . '">' . esc_html__( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
 		}
 
 		return $message;
@@ -391,7 +393,8 @@ class Yoast_I18n_V3 {
 		if ( $this->translation_exists && is_object( $set ) ) {
 			$this->locale_name        = $set->name;
 			$this->percent_translated = $set->percent_translated;
-		} else {
+		}
+		else {
 			$this->locale_name        = '';
 			$this->percent_translated = '';
 		}
