@@ -1,47 +1,53 @@
 <?php
+/**
+ * Yoast I18n module.
+ *
+ * @package Yoast\I18n-module
+ */
 
 /**
- * This class defines a promo box and checks your translation site's API for stats about it, then shows them to the user.
+ * This class defines a promo box and checks your translation site's API for stats about it,
+ * then shows them to the user.
  */
 class Yoast_I18n_v3 {
 
 	/**
-	 * Your translation site's logo
+	 * Your translation site's logo.
 	 *
 	 * @var string
 	 */
 	private $glotpress_logo;
 
 	/**
-	 * Your translation site's name
+	 * Your translation site's name.
 	 *
 	 * @var string
 	 */
 	private $glotpress_name;
 
 	/**
-	 * Your translation site's URL
+	 * Your translation site's URL.
 	 *
 	 * @var string
 	 */
 	private $glotpress_url;
 
 	/**
-	 * The URL to actually do the API request to
+	 * The URL to actually do the API request to.
 	 *
 	 * @var string
 	 */
 	private $api_url;
 
 	/**
-	 * Hook where you want to show the promo box
+	 * Hook where you want to show the promo box.
 	 *
 	 * @var string
 	 */
 	private $hook;
 
 	/**
-	 * Will contain the site's locale
+	 * Will contain the site's locale.
 	 *
 	 * @access private
 	 * @var string
@@ -49,7 +55,7 @@ class Yoast_I18n_v3 {
 	private $locale;
 
 	/**
-	 * Will contain the locale's name, obtained from your translation site
+	 * Will contain the locale's name, obtained from your translation site.
 	 *
 	 * @access private
 	 * @var string
@@ -57,7 +63,7 @@ class Yoast_I18n_v3 {
 	private $locale_name;
 
 	/**
-	 * Will contain the percentage translated for the plugin translation project in the locale
+	 * Will contain the percentage translated for the plugin translation project in the locale.
 	 *
 	 * @access private
 	 * @var int
@@ -65,28 +71,28 @@ class Yoast_I18n_v3 {
 	private $percent_translated;
 
 	/**
-	 * Name of your plugin
+	 * Name of your plugin.
 	 *
 	 * @var string
 	 */
 	private $plugin_name;
 
 	/**
-	 * Project slug for the project on your translation site
+	 * Project slug for the project on your translation site.
 	 *
 	 * @var string
 	 */
 	private $project_slug;
 
 	/**
-	 * URL to point to for registration links
+	 * URL to point to for registration links.
 	 *
 	 * @var string
 	 */
 	private $register_url;
 
 	/**
-	 * Your plugins textdomain
+	 * Your plugins textdomain.
 	 *
 	 * @var string
 	 */
@@ -109,10 +115,10 @@ class Yoast_I18n_v3 {
 	private $translation_loaded;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 *
-	 * @param array $args                   Contains the settings for the class.
-	 * @param bool $show_translation_box    Whether the translation box should be shown.
+	 * @param array $args                 Contains the settings for the class.
+	 * @param bool  $show_translation_box Whether the translation box should be shown.
 	 */
 	public function __construct( $args, $show_translation_box = true ) {
 		if ( ! is_admin() ) {
@@ -167,7 +173,7 @@ class Yoast_I18n_v3 {
 	 *
 	 * @access private
 	 *
-	 * @param array $args
+	 * @param array $args Contains the settings for the class.
 	 */
 	private function init( $args ) {
 		foreach ( $args as $key => $arg ) {
@@ -176,7 +182,7 @@ class Yoast_I18n_v3 {
 	}
 
 	/**
-	 * Check whether the promo should be hidden or not
+	 * Check whether the promo should be hidden or not.
 	 *
 	 * @access private
 	 *
@@ -210,7 +216,7 @@ class Yoast_I18n_v3 {
 	}
 
 	/**
-	 * Generates a promo message
+	 * Generates a promo message.
 	 *
 	 * @access private
 	 *
@@ -334,7 +340,7 @@ class Yoast_I18n_v3 {
 	}
 
 	/**
-	 * Retrieve the translation details from Yoast Translate
+	 * Retrieve the translation details from Yoast Translate.
 	 *
 	 * @access private
 	 *
@@ -370,9 +376,9 @@ class Yoast_I18n_v3 {
 	}
 
 	/**
-	 * Set the needed private variables based on the results from Yoast Translate
+	 * Set the needed private variables based on the results from Yoast Translate.
 	 *
-	 * @param object $set The translation set
+	 * @param object $set The translation set.
 	 *
 	 * @access private
 	 */
