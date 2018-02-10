@@ -30,7 +30,6 @@ jobs:
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
-    - env: WP_VERSION=master
 
 script:
 # PHP Linting
