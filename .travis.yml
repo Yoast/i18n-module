@@ -32,19 +32,9 @@ jobs:
     - php: nightly
     - env: WP_VERSION=master
 
-before_script:
-- export -f travis_fold
-- export -f travis_time_start
-- export -f travis_time_finish
-
 script:
 # PHP Linting
-- |
-  if [[ "$PHPLINT" == "1" ]]; then
-    travis_fold start "PHP.check" && travis_time_start
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    travis_time_finish && travis_fold end "PHP.check"
-  fi
+- if [[ "$PHPLINT" == "1" ]]; then if find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi; fi
 
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
