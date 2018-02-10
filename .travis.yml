@@ -25,6 +25,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
+      env: PHPCS=1
     - php: 5.3
       dist: precise
     - php: 5.2
@@ -34,6 +35,12 @@ jobs:
     # Allow failures for unstable builds.
     - php: nightly
 
+before_install:
+  - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
+
+install:
+  - if [[ $PHPCS == "1" ]]; then composer install --prefer-dist --no-interaction; fi
+
 script:
 # PHP Linting
 - if find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi
@@ -41,3 +48,6 @@ script:
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
+
+# Check the code against YoastCS.
+- if [[ $PHPCS == "1" ]]; then vendor/bin/phpcs -q; fi
