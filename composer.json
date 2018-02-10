@@ -3,7 +3,7 @@
     "description": "Handle i18n for WordPress plugins.",
     "keywords"   : ["wordpress"],
     "homepage"   : "https://github.com/Yoast/i18n-module",
-    "license"    : "GPL-2.0+",
+    "license"    : "GPL-2.0-or-later",
     "authors"    : [
         {
             "name"    : "Team Yoast",
