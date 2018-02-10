@@ -2,6 +2,14 @@ language: php
 dist: trusty
 sudo: false
 
+cache:
+  directories:
+    - vendor
+    # Cache directory for older Composer versions.
+    - $HOME/.composer/cache/files
+    # Cache directory for more recent Composer versions.
+    - $HOME/.cache/composer/files
+
 branches:
   only:
     - master
@@ -23,11 +31,6 @@ jobs:
     # Allow failures for unstable builds.
     - php: nightly
     - env: WP_VERSION=master
-
-cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
 
 before_script:
 - export -f travis_fold
