@@ -21,7 +21,7 @@ Alternatively you can include the library as a submodule.
 Make sure the class is loaded and instantiate it like this:
 
 ```php
-new Yoast_I18n_v3(
+new Yoast_I18n_V3(
 	array(
 		'textdomain'     => '{your text domain}',
 		'project_slug'   => '{your probject slug}',
@@ -38,7 +38,7 @@ new Yoast_I18n_v3(
 Because translate.wordpress.org is also a GlotPress installation you can use the i18n-module to promote translation your plugin on there. To do this you can use the dedicated wordpress.org class:
 
 ```php
-new Yoast_I18n_WordPressOrg_v3(
+new Yoast_I18n_WordPressOrg_V3(
 	array(
 		'textdomain'  => '{your text domain}',
 		'plugin_name' => '{your plugin name}',
@@ -52,7 +52,7 @@ new Yoast_I18n_WordPressOrg_v3(
 Since 3.0.0 you can also decide to render the message in a message-box of your own, just provide the second argument to the constructor as `false` to disable the showing of the box by the module itself.
 
 ```php
-$i18n_module = new Yoast_I18n_v3(
+$i18n_module = new Yoast_I18n_V3(
 	array(
 		'textdomain'     => '{your text domain}',
 		'project_slug'   => '{your probject slug}',
@@ -70,7 +70,7 @@ $message = $i18n_module->get_promo_message();
 ```
 
 ```php
-$i18n_module = new Yoast_I18n_WordPressOrg_v3(
+$i18n_module = new Yoast_I18n_WordPressOrg_V3(
 	array(
 		'textdomain'  => '{your text domain}',
 		'plugin_name' => '{your plugin name}',
