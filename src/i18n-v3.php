@@ -237,10 +237,10 @@ class Yoast_I18n_V3 {
 		}
 
 		$registration_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $this->register_url ), esc_html( $this->glotpress_name ) );
-		$message           = sprintf( $message, esc_html( $this->locale_name ), esc_html( $this->plugin_name ), $this->percent_translated, $registration_link );
+		$message           = sprintf( esc_html( $message ), esc_html( $this->locale_name ), esc_html( $this->plugin_name ), (int) $this->percent_translated, $registration_link );
 
 		if ( $message ) {
-			$message = '<p>' . $message . '</p>' . '<p><a href="' . esc_url( $this->register_url ) . '">' . __( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
+			$message = '<p>' . $message . '</p>' . '<p><a href="' . esc_url( $this->register_url ) . '">' . esc_html__( 'Register now &raquo;', $this->textdomain ) . '</a></p>';
 		}
 
 		return $message;
@@ -256,7 +256,7 @@ class Yoast_I18n_V3 {
 	public function get_dismiss_i18n_message_button() {
 		return sprintf(
 			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
-			__( '%1$sPlease don\'t show me this notification anymore%2$s', $this->textdomain ),
+			esc_html__( '%1$sPlease don\'t show me this notification anymore%2$s', $this->textdomain ),
 			'<a class="button" href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '">',
 			'</a>'
 		);
@@ -275,10 +275,11 @@ class Yoast_I18n_V3 {
 			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 
 			echo '<div>';
-			echo '<h2>' . sprintf( __( 'Translation of %s', $this->textdomain ), $this->plugin_name ) . '</h2>';
+			echo '<h2>' . sprintf( esc_html__( 'Translation of %s', $this->textdomain ), esc_html( $this->plugin_name ) ) . '</h2>';
 			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && '' !== $this->glotpress_logo ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
+			// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped -- correctly escaped in promo_message() method.
 			echo $message;
 			echo '</div>';
 			echo '</div>';
