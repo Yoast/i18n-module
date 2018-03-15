@@ -16,5 +16,8 @@
     },
     "autoload"   : {
         "classmap": ["src/"]
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
     }
 }
