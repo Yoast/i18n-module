@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<ruleset name="Yoast I18n module">
+	<description>Yoast I18n module rules for PHP_CodeSniffer</description>
+
+	<!--
+	#############################################################################
+	COMMAND LINE ARGUMENTS
+	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	#############################################################################
+	-->
+
+	<file>.</file>
+
+	<exclude-pattern>vendor/*</exclude-pattern>
+
+	<!-- Only check PHP files. -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps"/>
+
+	<!-- Strip the filepaths down to the relevant bit. -->
+	<arg name="basepath" value="./"/>
+
+	<!-- Check up to 8 files simultanously. -->
+	<arg name="parallel" value="8"/>
+
+
+	<!--
+	#############################################################################
+	USE THE YoastCS RULESET
+	#############################################################################
+	-->
+
+	<rule ref="Yoast">
+		<!-- Can't be helped, textdomain is passed in dynamically, that's the nature of this module. -->
+		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
+	</rule>
+
+
+	<!--
+	#############################################################################
+	SNIFF SPECIFIC CONFIGURATION
+	#############################################################################
+	-->
+
+	<!-- Set the minimum supported WP version. This is used by several sniffs. -->
+	<config name="minimum_supported_wp_version" value="4.8"/>
+
+	<rule ref="Yoast.Files.FileName">
+		<properties>
+			<!-- Remove the following prefixes from the names of object structures. -->
+			<property name="prefixes" type="array" value="yoast"/>
+		</properties>
+	</rule>
+
+	<!-- Verify that everything in the global namespace is prefixed with a plugin specific prefix. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<!-- Provide the prefixes to look for. -->
+			<property name="prefixes" type="array" value="yoast"/>
+		</properties>
+	</rule>
+
+
+	<!--
+	#############################################################################
+	SELECTIVE EXCLUSIONS
+	Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
+	#############################################################################
+	-->
+
+	<rule ref="WordPress.VIP.RestrictedFunctions">
+		<!-- This should be fine as long as the module is not used on the VIP platform.
+			 If/when it will be a wrapper can be used to use the VIP method when available
+			 and the WP native method when not.
+		-->
+		<properties>
+			<property name="exclude" value="wp_remote_get"/>
+		</properties>
+	</rule>
+
+</ruleset>
