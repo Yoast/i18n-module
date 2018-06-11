@@ -50,7 +50,9 @@
 	<rule ref="Yoast.Files.FileName">
 		<properties>
 			<!-- Remove the following prefixes from the names of object structures. -->
-			<property name="prefixes" type="array" value="yoast"/>
+			<property name="prefixes" type="array">
+				<element value="yoast"/>
+			</property>
 		</properties>
 	</rule>
 
@@ -58,7 +60,9 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<!-- Provide the prefixes to look for. -->
-			<property name="prefixes" type="array" value="yoast"/>
+			<property name="prefixes" type="array">
+				<element value="yoast"/>
+			</property>
 		</properties>
 	</rule>
 
