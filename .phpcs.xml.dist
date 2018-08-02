@@ -66,22 +66,4 @@
 		</properties>
 	</rule>
 
-
-	<!--
-	#############################################################################
-	SELECTIVE EXCLUSIONS
-	Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
-	#############################################################################
-	-->
-
-	<rule ref="WordPress.VIP.RestrictedFunctions">
-		<!-- This should be fine as long as the module is not used on the VIP platform.
-			 If/when it will be a wrapper can be used to use the VIP method when available
-			 and the WP native method when not.
-		-->
-		<properties>
-			<property name="exclude" value="wp_remote_get"/>
-		</properties>
-	</rule>
-
 </ruleset>
