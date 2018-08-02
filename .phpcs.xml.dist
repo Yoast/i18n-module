@@ -61,7 +61,7 @@
 		<properties>
 			<!-- Provide the prefixes to look for. -->
 			<property name="prefixes" type="array">
-				<element value="yoast"/>
+				<element value="yoast_i18n"/>
 			</property>
 		</properties>
 	</rule>
