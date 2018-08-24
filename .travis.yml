@@ -24,7 +24,7 @@ php:
 jobs:
   fast_finish: true
   include:
-    - php: 7.2
+    - php: 7.3
       env: PHPCS=1
     - php: 5.3
       dist: precise
@@ -47,7 +47,7 @@ script:
 
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
-- if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
+- if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.3" ]]; then composer validate --no-check-all; fi
 
 # Check the code against YoastCS.
 - if [[ $PHPCS == "1" ]]; then vendor/bin/phpcs -q; fi
