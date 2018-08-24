@@ -296,7 +296,7 @@ class Yoast_I18n_V3 {
 			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && '' !== $this->glotpress_logo ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
-			// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped -- correctly escaped in promo_message() method.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- correctly escaped in promo_message() method.
 			echo $message;
 			echo '</div>';
 			echo '</div>';
