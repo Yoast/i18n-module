@@ -65,6 +65,7 @@
 			<!-- Provide the prefixes to look for. -->
 			<property name="prefixes" type="array">
 				<element value="yoast_i18n"/>
+				<element value="Yoast\WP\I18n"/>
 			</property>
 		</properties>
 	</rule>
