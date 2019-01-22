@@ -387,6 +387,10 @@ class Yoast_I18n_V3 {
 				if ( $this->locale === $set->wp_locale ) {
 					return $set;
 				}
+
+				if ( $set->slug !== 'default' && strtolower( $this->locale ) === strtolower( $set->wp_locale .'_' . $set->slug ) ) {
+					return $set;
+				}
 			}
 		}
 
