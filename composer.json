@@ -12,13 +12,31 @@
         }
     ],
     "support"    : {
-        "issues": "https://github.com/Yoast/i18n-module/issues"
+        "issues": "https://github.com/Yoast/i18n-module/issues",
+        "source": "https://github.com/Yoast/i18n-module"
     },
     "autoload"   : {
         "classmap": ["src/"]
     },
+    "require": {
+        "php": ">=5.2"
+    },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "yoast/yoastcs": "^1.2.2"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "config-yoastcs" : [
+            "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+            "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set default_standard Yoast"
+        ],
+        "check-cs": [
+            "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+        ],
+        "fix-cs": [
+            "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+        ]
     }
 }
