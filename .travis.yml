@@ -17,9 +17,9 @@ branches:
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
 
 php:
-- 7.0
-- 5.6
-- nightly
+  - 7.0
+  - 5.6
+  - "7.4snapshot"
 
 jobs:
   fast_finish: true
@@ -33,7 +33,7 @@ jobs:
 
   allow_failures:
     # Allow failures for unstable builds.
-    - php: nightly
+    - php: "7.4snapshot"
 
 before_install:
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
