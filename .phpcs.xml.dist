@@ -14,8 +14,6 @@
 
 	<file>.</file>
 
-	<exclude-pattern>vendor/*</exclude-pattern>
-
 	<!-- Only check PHP files. -->
 	<arg name="extensions" value="php"/>
 
@@ -25,7 +23,7 @@
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="./"/>
 
-	<!-- Check up to 8 files simultanously. -->
+	<!-- Check up to 8 files simultaneously. -->
 	<arg name="parallel" value="8"/>
 
 
@@ -38,6 +36,14 @@
 	<rule ref="Yoast">
 		<!-- Can't be helped, textdomain is passed in dynamically, that's the nature of this module. -->
 		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
+
+		<!-- Temporary exclusion. This needs to be fixed in a major release.
+			 While PHP is case-insensitive, the Composer autoload file isn't, so this breaks
+			 plugins which include this module, unless the classname is also adjusted in the
+			 plugin.
+			 See:
+			 - https://github.com/Yoast/i18n-module/pull/29
+			 - https://github.com/Yoast/i18n-module/pull/49 -->
 		<exclude name="PEAR.NamingConventions.ValidClassName.Invalid"/>
 	</rule>
 
@@ -47,9 +53,6 @@
 	SNIFF SPECIFIC CONFIGURATION
 	#############################################################################
 	-->
-
-	<!-- Set the minimum supported WP version. This is used by several sniffs. -->
-	<config name="minimum_supported_wp_version" value="4.8"/>
 
 	<rule ref="Yoast.Files.FileName">
 		<properties>
