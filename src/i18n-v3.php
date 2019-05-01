@@ -384,12 +384,14 @@ class Yoast_I18n_V3 {
 					continue;
 				}
 
+				// For informal and formal locales, we have to complete the locale code by concatenating the slug ('formal' or 'informal') to the xx_XX part.
+				if ( $set->slug !== 'default' && strtolower( $this->locale ) === strtolower( $set->wp_locale . '_' . $set->slug ) ) {
+					return $set;
+				}
+
 				if ( $this->locale === $set->wp_locale ) {
 					return $set;
 				}
-			}
-			if ( $set->slug !== 'default' && strtolower( $this->locale ) === strtolower( $set->wp_locale . '_' . $set->slug ) ) {
-				return $set;
 			}
 		}
 
