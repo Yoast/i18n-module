@@ -38,6 +38,7 @@
 	<rule ref="Yoast">
 		<!-- Can't be helped, textdomain is passed in dynamically, that's the nature of this module. -->
 		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
+		<exclude name="PEAR.NamingConventions.ValidClassName.Invalid"/>
 	</rule>
 
 
