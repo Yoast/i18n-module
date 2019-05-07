@@ -9,7 +9,7 @@
  * This class defines a promo box and checks your translation site's API for stats about it,
  * then shows them to the user.
  */
-class Yoast_I18n_V3 {
+class Yoast_I18n_v3 {
 
 	/**
 	 * Your translation site's logo.
