@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.1
+
+### Fixed
+- Reverts the capitalization of the class names.
+
 ## 3.1.0
 
 ### Fixed
