@@ -146,7 +146,7 @@ class Yoast_I18n_v3 {
 	 * @return bool Returns true if the language is en_US.
 	 */
 	protected function is_default_language( $language ) {
-		return 'en_US' === $language;
+		return $language === 'en_US';
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Yoast_I18n_v3 {
 			echo '<div>';
 			/* translators: %s: plugin name. */
 			echo '<h2>' . sprintf( esc_html__( 'Translation of %s', $this->textdomain ), esc_html( $this->plugin_name ) ) . '</h2>';
-			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && '' !== $this->glotpress_logo ) {
+			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && $this->glotpress_logo !== '' ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- correctly escaped in promo_message() method.
