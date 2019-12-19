@@ -34,6 +34,14 @@
 	-->
 
 	<rule ref="Yoast">
+		<!-- Provide the plugin specific prefixes for all naming related sniffs. -->
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="Yoast\WP\I18n"/>
+				<element value="yoast_i18n"/>
+			</property>
+		</properties>
+
 		<!-- Can't be helped, textdomain is passed in dynamically, that's the nature of this module. -->
 		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
 
@@ -42,6 +50,7 @@
 			 plugins which include this module, unless the classname is also adjusted in the
 			 plugin.
 			 See:
+			 - https://github.com/Yoast/i18n-module/issues/51
 			 - https://github.com/Yoast/i18n-module/pull/29
 			 - https://github.com/Yoast/i18n-module/pull/49 -->
 		<exclude name="PEAR.NamingConventions.ValidClassName.Invalid"/>
@@ -57,19 +66,17 @@
 	<rule ref="Yoast.Files.FileName">
 		<properties>
 			<!-- Remove the following prefixes from the names of object structures. -->
-			<property name="prefixes" type="array">
+			<property name="oo_prefixes" type="array">
 				<element value="yoast"/>
 			</property>
 		</properties>
 	</rule>
 
-	<!-- Verify that everything in the global namespace is prefixed with a plugin specific prefix. -->
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
-			<!-- Provide the prefixes to look for. -->
-			<property name="prefixes" type="array">
-				<element value="yoast_i18n"/>
-				<element value="Yoast\WP\I18n"/>
+			<!-- Treat the "src" directory as the project root for path to namespace translations. -->
+			<property name="src_directory" type="array">
+				<element value="src"/>
 			</property>
 		</properties>
 	</rule>

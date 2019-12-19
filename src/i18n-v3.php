@@ -134,7 +134,7 @@ class Yoast_I18n_v3 {
 		$this->init( $args );
 
 		if ( $show_translation_box ) {
-			add_action( $this->hook, array( $this, 'promo' ) );
+			add_action( $this->hook, [ $this, 'promo' ] );
 		}
 	}
 
@@ -146,7 +146,7 @@ class Yoast_I18n_v3 {
 	 * @return bool Returns true if the language is en_US.
 	 */
 	protected function is_default_language( $language ) {
-		return 'en_US' === $language;
+		return $language === 'en_US';
 	}
 
 	/**
@@ -273,7 +273,7 @@ class Yoast_I18n_v3 {
 		return sprintf(
 			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
 			esc_html__( '%1$sPlease don\'t show me this notification anymore%2$s', $this->textdomain ),
-			'<a class="button" href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '">',
+			'<a class="button" href="' . esc_url( add_query_arg( [ 'remove_i18n_promo' => '1' ] ) ) . '">',
 			'</a>'
 		);
 	}
@@ -288,12 +288,12 @@ class Yoast_I18n_v3 {
 
 		if ( $message ) {
 			echo '<div id="i18n_promo_box" style="border:1px solid #ccc;background-color:#fff;padding:10px;max-width:650px; overflow: hidden;">';
-			echo '<a href="' . esc_url( add_query_arg( array( 'remove_i18n_promo' => '1' ) ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
+			echo '<a href="' . esc_url( add_query_arg( [ 'remove_i18n_promo' => '1' ] ) ) . '" style="color:#333;text-decoration:none;font-weight:bold;font-size:16px;border:1px solid #ccc;padding:1px 4px;" class="alignright">X</a>';
 
 			echo '<div>';
 			/* translators: %s: plugin name. */
 			echo '<h2>' . sprintf( esc_html__( 'Translation of %s', $this->textdomain ), esc_html( $this->plugin_name ) ) . '</h2>';
-			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && '' !== $this->glotpress_logo ) {
+			if ( isset( $this->glotpress_logo ) && is_string( $this->glotpress_logo ) && $this->glotpress_logo !== '' ) {
 				echo '<a href="' . esc_url( $this->register_url ) . '"><img class="alignright" style="margin:0 5px 5px 5px;max-width:200px;" src="' . esc_url( $this->glotpress_logo ) . '" alt="' . esc_attr( $this->glotpress_name ) . '"/></a>';
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- correctly escaped in promo_message() method.
