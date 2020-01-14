@@ -49,7 +49,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Will contain the site's locale.
 	 *
-	 * @access private
 	 * @var string
 	 */
 	private $locale;
@@ -57,7 +56,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Will contain the locale's name, obtained from your translation site.
 	 *
-	 * @access private
 	 * @var string
 	 */
 	private $locale_name;
@@ -65,7 +63,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Will contain the percentage translated for the plugin translation project in the locale.
 	 *
-	 * @access private
 	 * @var int
 	 */
 	private $percent_translated;
@@ -101,7 +98,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Indicates whether there's a translation available at all.
 	 *
-	 * @access private
 	 * @var bool
 	 */
 	private $translation_exists;
@@ -109,7 +105,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Indicates whether the translation's loaded.
 	 *
-	 * @access private
 	 * @var bool
 	 */
 	private $translation_loaded;
@@ -171,8 +166,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * This is where you decide where to display the messages and where you set the plugin specific variables.
 	 *
-	 * @access private
-	 *
 	 * @param array $args Contains the settings for the class.
 	 */
 	private function init( $args ) {
@@ -183,8 +176,6 @@ class Yoast_I18n_v3 {
 
 	/**
 	 * Check whether the promo should be hidden or not.
-	 *
-	 * @access private
 	 *
 	 * @return bool
 	 */
@@ -203,8 +194,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Returns the i18n_promo message from the i18n_module. Returns en empty string if the promo shouldn't be shown.
 	 *
-	 * @access public
-	 *
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
@@ -217,8 +206,6 @@ class Yoast_I18n_v3 {
 
 	/**
 	 * Generates a promo message.
-	 *
-	 * @access private
 	 *
 	 * @return bool|string $message
 	 */
@@ -280,8 +267,6 @@ class Yoast_I18n_v3 {
 
 	/**
 	 * Outputs a promo box.
-	 *
-	 * @access public
 	 */
 	public function promo() {
 		$message = $this->get_promo_message();
@@ -306,8 +291,6 @@ class Yoast_I18n_v3 {
 	/**
 	 * Try to find the transient for the translation set or retrieve them.
 	 *
-	 * @access private
-	 *
 	 * @return object|null
 	 */
 	private function find_or_initialize_translation_details() {
@@ -323,8 +306,6 @@ class Yoast_I18n_v3 {
 
 	/**
 	 * Try to get translation details from cache, otherwise retrieve them, then parse them.
-	 *
-	 * @access private
 	 */
 	private function translation_details() {
 		$set = $this->find_or_initialize_translation_details();
@@ -359,8 +340,6 @@ class Yoast_I18n_v3 {
 
 	/**
 	 * Retrieve the translation details from Yoast Translate.
-	 *
-	 * @access private
 	 *
 	 * @return object|null
 	 */
@@ -402,8 +381,6 @@ class Yoast_I18n_v3 {
 	 * Set the needed private variables based on the results from Yoast Translate.
 	 *
 	 * @param object $set The translation set.
-	 *
-	 * @access private
 	 */
 	private function parse_translation_set( $set ) {
 		if ( $this->translation_exists && is_object( $set ) ) {
