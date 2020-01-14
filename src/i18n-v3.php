@@ -207,7 +207,7 @@ class Yoast_I18n_v3 {
 	/**
 	 * Generates a promo message.
 	 *
-	 * @return bool|string $message
+	 * @return bool|string
 	 */
 	private function promo_message() {
 
