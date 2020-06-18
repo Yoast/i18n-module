@@ -34,11 +34,16 @@ before_install:
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
 
 install:
-  - if [[ $PHPCS == "1" ]]; then composer install --prefer-dist --no-interaction; fi
+  - |
+    if [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      composer install --prefer-dist --no-interaction --ignore-platform-reqs
+    else
+      composer install --prefer-dist --no-interaction
+    fi
 
 script:
 # PHP Linting
-- if find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi
+- composer lint
 
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
