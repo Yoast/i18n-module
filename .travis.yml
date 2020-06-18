@@ -45,4 +45,4 @@ script:
 - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
 # Check the code against YoastCS.
-- if [[ $PHPCS == "1" ]]; then vendor/bin/phpcs -q; fi
+- if [[ $PHPCS == "1" ]]; then composer check-cs; fi
