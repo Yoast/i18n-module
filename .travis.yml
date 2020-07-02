@@ -3,6 +3,7 @@ dist: trusty
 
 cache:
   directories:
+    - .cache
     - vendor
     # Cache directory for older Composer versions.
     - $HOME/.composer/cache/files

@@ -12,6 +12,7 @@
 .travis.yml export-ignore
 phpcs.xml export-ignore
 phpcs.xml.dist export-ignore
+/.cache export-ignore
 
 #
 # Auto detect text files and perform LF normalization
