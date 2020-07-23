@@ -1,5 +1,5 @@
+os: linux
 language: php
-dist: trusty
 
 cache:
   directories:
