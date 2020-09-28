@@ -153,7 +153,7 @@ class Yoast_I18n_v3 {
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site’s locale.
 	 *
-	 * @returns string The locale.
+	 * @return string The locale.
 	 */
 	private function get_admin_locale() {
 		if ( function_exists( 'get_user_locale' ) ) {
