@@ -36,6 +36,24 @@ new Yoast_I18n_v3(
 );
 ```
 
+If the service you are using doesn't follow the GlotPress conventions for the URLs, you may want to pass directly the full `api_url`
+to get the list of available translations, instead of letting the class build it from `glotpress_url`:
+
+```php
+new Yoast_I18n_v3(
+	array(
+		'textdomain'     => '{your text domain}',
+		'project_slug'   => '{your probject slug}',
+		'plugin_name'    => '{your plugin name}',
+		'hook'           => '{the hook to display the message box on}',
+		'api_url'        => '{url the JSON list of the available languages}',
+		'glotpress_name' => '{name of your glotpress installation}',
+		'glotpress_logo' => '{url to a logo which will be shown}',
+		'register_url '  => '{url to use when registering for a project}',
+	)
+);
+```
+
 Because translate.wordpress.org is also a GlotPress installation you can use the i18n-module to promote translation your plugin on there. To do this you can use the dedicated wordpress.org class:
 
 ```php
