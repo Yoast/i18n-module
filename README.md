@@ -1,5 +1,5 @@
 [![CS](https://github.com/Yoast/i18n-module/actions/workflows/cs.yml/badge.svg)](https://github.com/Yoast/i18n-module/actions/workflows/cs.yml)
-[![Build Status](https://travis-ci.org/Yoast/i18n-module.png?branch=master)](https://travis-ci.org/Yoast/i18n-module)
+[![Lint](https://github.com/Yoast/i18n-module/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/i18n-module/actions/workflows/lint.yml)
 [![Code Climate](https://codeclimate.com/github/Yoast/i18n-module/badges/gpa.svg)](https://codeclimate.com/github/Yoast/i18n-module)
 
 # Yoast i18n module
