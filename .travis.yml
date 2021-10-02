@@ -3,7 +3,6 @@ language: php
 
 cache:
   directories:
-    - .cache
     - vendor
     # Cache directory for older Composer versions.
     - $HOME/.composer/cache/files
@@ -18,14 +17,12 @@ branches:
 
 php:
   - 8.0
+  - 7.4
   - 7.0
   - 5.6
 
 jobs:
   fast_finish: true
-  include:
-    - php: 7.4
-      env: PHPCS=1
 
 before_install:
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
@@ -41,10 +38,3 @@ install:
 script:
 # PHP Linting
 - composer lint
-
-# Validate the composer.json file.
-# @link https://getcomposer.org/doc/03-cli.md#validate
-- if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
-
-# Check the code against YoastCS.
-- if [[ $PHPCS == "1" ]]; then composer check-cs; fi
