@@ -2,6 +2,10 @@
 [![Lint](https://github.com/Yoast/i18n-module/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/i18n-module/actions/workflows/lint.yml)
 [![Code Climate](https://codeclimate.com/github/Yoast/i18n-module/badges/gpa.svg)](https://codeclimate.com/github/Yoast/i18n-module)
 
+⚠️ Update September 28th 2023 ⚠️
+
+We have discontinued development on this project. If you're interested in this module, we happily refer you to a well-maintained fork by [@mte90](https://github.com/WPBP/i18n-notice/commits?author=Mte90) at https://github.com/WPBP/i18n-notice.
+
 # Yoast i18n module
 Promote your own translation site for people who are using your plugin in another language than `en_US`. 
 
